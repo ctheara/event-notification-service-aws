@@ -41,7 +41,7 @@ The Ingest Lamda only need to: Write logs (for debugging) and Send events to the
 
 ## Events Table
 
-This table will be used to store incoming events data.
+This table is used to store incoming events data.
 
 **Table name**: `Events`  
 **Partition key**: `eventId` (string)
@@ -57,3 +57,26 @@ This table will be used to store incoming events data.
 | receivedAt | String | ISO8601, when API received it |
 | processedAt | String | ISO8601, when processor handled it |
 | status | String | PENDING, PROCESSED, NOTIFIED |
+
+## API Gateway
+
+![api gateway](../assets/api_gateway.png)
+
+**API Name**: `event-notification-api`  
+**Type**: REST API  
+**Stage**: dev  
+**Invoke URL**: `https://i1v3hdqbd3.execute-api.us-east-2.amazonaws.com/dev`
+
+### Endpoints
+
+| Method | Path    | Lamda        | Description       |
+| ------ | ------- | ------------ | ----------------- |
+| POST   | /events | event-ingest | Submit new events |
+
+### Test Script `test-api.sh`
+
+```bash
+chmod +x scripts/test-api.sh
+
+./scripts/test-api.sh
+```

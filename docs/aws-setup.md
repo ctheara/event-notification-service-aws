@@ -20,6 +20,8 @@ The Ingest Lamda only need to: Write logs (for debugging) and Send events to the
 
 ### `events-queue` (Main Queue)
 
+**Purpose**: To hold messages between the Ingest lambda from the Processor lambda. This prevents slow or unreliable downstream dependencies from blocking ingestion, buffers traffic spikes, and ensures messages are retried and processed asynchronously.
+
 **URL**: https://sqs.us-east-2.amazonaws.com/026008176803/events-queue
 
 **Configuration**:
@@ -32,3 +34,26 @@ The Ingest Lamda only need to: Write logs (for debugging) and Send events to the
 ### `events-dlq` (Deal-Letter Queue)
 
 **Purpose**: To captures messages that fail processing after 3 times. Check this queue periodically because messages here indicate bugs or bad data.
+
+## DynamoDB Table
+
+![DynamoDB table](../assets/dynamodb_table.png)
+
+## Events Table
+
+This table will be used to store incoming events data.
+
+**Table name**: `Events`  
+**Partition key**: `eventId` (string)
+
+**Attributes**:
+| Name | Type | Description |
+|------|------|-------------|
+| eventId | String | Primary key, UUID format (evt_xxx) |
+| eventType | String | Category (deployment, alert, etc.) |
+| severity | String | LOW, MEDIUM, HIGH, CRITICAL |
+| title | String | Brief description |
+| details | Map | Arbitrary JSON metadata |
+| receivedAt | String | ISO8601, when API received it |
+| processedAt | String | ISO8601, when processor handled it |
+| status | String | PENDING, PROCESSED, NOTIFIED |

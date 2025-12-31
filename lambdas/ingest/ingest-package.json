@@ -1,0 +1,15 @@
+{
+  "name": "event-ingest-lambda",
+  "version": "1.0.0",
+  "description": "Lambda function to ingest events and queue them in SQS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -2,8 +2,6 @@
 
 # Test script for Event Notification API
 # Usage: ./test-api.sh
-# 
-# Make sure to replace API_BASE_URL with your actual API Gateway URL
 
 API_BASE_URL="https://i1v3hdqbd3.execute-api.us-east-2.amazonaws.com/dev"
 

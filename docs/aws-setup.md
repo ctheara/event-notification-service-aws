@@ -44,7 +44,7 @@ The Ingest Lamda only need to: Write logs (for debugging) and Send events to the
 This table is used to store incoming events data.
 
 **Table name**: `Events`  
-**Partition key**: `eventId` (string)
+**Partition key**: `eventId` (String)
 
 **Attributes**:
 | Name | Type | Description |
@@ -57,6 +57,29 @@ This table is used to store incoming events data.
 | receivedAt | String | ISO8601, when API received it |
 | processedAt | String | ISO8601, when processor handled it |
 | status | String | PENDING, PROCESSED, NOTIFIED |
+
+## Subscriptions Table
+
+This table is used to store consumer subscription infomation.
+
+**Table name**: `Subscriptions`  
+**Partition key**: `subscriptionId` (String)
+
+**Global Secondary Index**: eventType-index
+
+- Partition key: eventType (String)
+- Purpose: Efficiently find all subscriptions for a given event type
+
+**Attributes**:
+| Name | Type | Description |
+|------|------|-------------|
+| subscriptionId | String | Primary key (sub_xxx format) |
+| eventType | String | Event type to match (indexed via GSI) |
+| severityFilter | String | LOW, MEDIUM, HIGH, CRITICAL |
+| channel | String | EMAIL or WEBHOOK |
+| target | String | Email address or webhook URL |
+| active | Boolean | Whether subscription is active |
+| createdAt | String | ISO8601 timestamp |
 
 ## API Gateway
 

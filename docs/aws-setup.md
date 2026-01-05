@@ -106,9 +106,10 @@ This table is used to store consumer subscription infomation.
 
 ### Endpoints
 
-| Method | Path    | Lamda        | Description       |
-| ------ | ------- | ------------ | ----------------- |
-| POST   | /events | event-ingest | Submit new events |
+| Method | Path           | Lamda              | Description               |
+| ------ | -------------- | ------------------ | ------------------------- |
+| POST   | /events        | event-ingest       | Submit new events         |
+| POST   | /subscriptions | event-subscription | Subscribe to get notified |
 
 ### Test Script `test-api.sh`
 

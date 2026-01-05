@@ -14,7 +14,7 @@ Purpose: Execution role for Ingest Lambda function
 
 ### subscription-lambda-role
 
-Purpose: Execution role for Subscription Lambda fucntion
+Purpose: Execution role for Subscription Lambda function
 
 **Attached Policies**:
 
@@ -23,6 +23,20 @@ Purpose: Execution role for Subscription Lambda fucntion
 2. `dynamodb-subscriptions-write` (inline)
    - Allows PutItem on Subscriptions table only
    - Cannot read, update, or delete (least privilege)
+
+### processor-lambda-role
+
+Purpose: Execution role for Processor Lambda function
+
+**Attached Policies**:
+
+1. `AWSLambdaBasicExecutionRole` (AWS managed)
+   - Allow Lambda to create log groups and write logs to CloudWatch
+2. `processor-lambda-policy` (inline)
+   - Allows Read/Delete from SQS
+   - Write to Events and Notification tables
+   - Read from the Subscription table
+   - Send emails via SES
 
 ### Why These Permissions?
 
@@ -121,6 +135,8 @@ chmod +x scripts/test-api.sh
 
 ## Lambda
 
+![lambda functions](../assets/lambdas.png)
+
 See `lambdas` directory for code.
 
 ### event-ingest
@@ -130,6 +146,10 @@ See `lambdas` directory for code.
 ### event-subscription
 
 **_Purpose_**: Capture new subscriptions from consumers with eventType, severityFilter, channel (email or webhook).
+
+### event-processor
+
+**_Purpose_**: Process incoming messages from SQS and notifying subscribers by email or webhook
 
 ## SES (Simple Email Service)
 

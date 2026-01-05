@@ -1,6 +1,8 @@
 ## IAM Resources
 
-Purpose: Execution role for Ingest Lambda fucntion
+### event-ingest-lambda-role
+
+Purpose: Execution role for Ingest Lambda function
 
 **Attached Policies**:
 
@@ -9,6 +11,18 @@ Purpose: Execution role for Ingest Lambda fucntion
 2. `sqs-send-message-policy` (inline)
    - Allows Lambda to send messages to the events-queue
    - Limited to SendMessage action only
+
+### subscription-lambda-role
+
+Purpose: Execution role for Subscription Lambda fucntion
+
+**Attached Policies**:
+
+1. `AWSLambdaBasicExecutionRole` (AWS managed)
+   - Allow Lambda to create log groups and write logs to CloudWatch
+2. `dynamodb-subscriptions-write` (inline)
+   - Allows PutItem on Subscriptions table only
+   - Cannot read, update, or delete (least privilege)
 
 ### Why These Permissions?
 

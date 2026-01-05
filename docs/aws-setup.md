@@ -130,3 +130,7 @@ See `lambdas` directory for code.
 ### event-subscription
 
 **_Purpose_**: Capture new subscriptions from consumers with eventType, severityFilter, channel (email or webhook).
+
+## SES (Simple Email Service)
+
+**Verified Identities**: email@example.com (for testing as both sender and recipient)

@@ -117,3 +117,15 @@ chmod +x scripts/test-api.sh
 
 ./scripts/test-api.sh
 ```
+
+## Lambda
+
+See `lambdas` directory for code.
+
+### event-ingest
+
+**_Purpose_**: Ingest published events and send messages to SQS for Processsor Lamda to process.
+
+### event-subscription
+
+**_Purpose_**: Capture new subscriptions from consumers with eventType, severityFilter, channel (email or webhook).

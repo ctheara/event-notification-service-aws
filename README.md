@@ -49,4 +49,33 @@ Publisher
 | CloudWatch  | Logging and monitoring                      |
 | IAM         | Least-privilege access control              |
 
-## What I Learned
+## API Endpoints
+
+### POST /events
+
+Submit a new event for processing.
+
+```json
+{
+  "eventType": "deployment",
+  "severity": "HIGH",
+  "title": "API v2.1 deployed to production",
+  "details": {
+    "service": "user-api",
+    "version": "2.1.0"
+  }
+}
+```
+
+### POST /subscriptions
+
+Create a new subscription to receive notifications.
+
+```json
+{
+  "eventType": "deployment",
+  "severityFilter": "HIGH",
+  "channel": "EMAIL",
+  "target": "ops-team@company.com"
+}
+```

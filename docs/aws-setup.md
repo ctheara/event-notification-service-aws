@@ -1,3 +1,9 @@
+# AWS Setup Documentation
+
+## Region
+
+All resources created in: `us-east-2`
+
 ## IAM Resources
 
 ### event-ingest-lambda-role
@@ -91,9 +97,8 @@ This table is used to store incoming events data.
 This table is used to store consumer subscription infomation.
 
 **Table name**: `Subscriptions`  
-**Partition key**: `subscriptionId` (String)
-
-**Global Secondary Index**: eventType-index
+**Partition key**: `subscriptionId` (String)  
+**Global Secondary Index**: `eventType-index`
 
 - Partition key: eventType (String)
 - Purpose: Efficiently find all subscriptions for a given event type
@@ -108,6 +113,25 @@ This table is used to store consumer subscription infomation.
 | target | String | Email address or webhook URL |
 | active | Boolean | Whether subscription is active |
 | createdAt | String | ISO8601 timestamp |
+
+### Notifications Table
+
+Audit trail of all notification attempts
+
+**Table name**: `Notifications`  
+**Partition key**: `eventId` (String)  
+**Sort key**: `subscriptionId` (String)
+
+**Attributes**:
+| Name | Type | Description |
+|------|------|-------------|
+| eventId | String | Associated event (PK) |
+| subscriptionId | String | Associated subscription (SK) |
+| channel | String | EMAIL or WEBHOOK |
+| target | String | Where notification was sent |
+| status | String | SENT or FAILED |
+| attemptedAt | String | ISO8601 timestamp |
+| errorMessage | String | Error details if failed |
 
 ## API Gateway
 
@@ -141,15 +165,24 @@ See `lambdas` directory for code.
 
 ### event-ingest
 
-**_Purpose_**: Ingest published events and send messages to SQS for Processsor Lamda to process.
+**Purpose**: Ingest published events and send messages to SQS for Processsor Lamda to process.  
+**Trigger**: API Gateway (POST /events)  
+**Timeout**: 3 seconds (default)  
+**Role**: event-ingest-lambda-role
 
 ### event-subscription
 
-**_Purpose_**: Capture new subscriptions from consumers with eventType, severityFilter, channel (email or webhook).
+**Purpose**: Capture new subscriptions from consumers with eventType, severityFilter, channel (email or webhook).  
+**Trigger**: API Gateway (POST /subscriptions)  
+**Timeout**: 3 seconds (default)  
+**Role**: subscription-lambda-role
 
 ### event-processor
 
-**_Purpose_**: Process incoming messages from SQS and notifying subscribers by email or webhook
+**Purpose**: Process incoming messages from SQS and notify subscribers by email or webhook  
+**Trigger**: SQS (events-queue)  
+**Timeout**: 30 seconds  
+**Role**: processor-lambda-role
 
 ## SES (Simple Email Service)
 

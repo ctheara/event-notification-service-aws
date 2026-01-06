@@ -1,6 +1,6 @@
 # Event Notification Service on AWS
 
-An event-driven notification system built on AWS serverless architecture. Publishers submit events via REST API, and subscribers receive notifications through email or webhooks based on their filtering preferences.
+An event-driven notification system built on AWS serverless architecture. Publishers submit events via REST API, and subscribers receive notifications through email or webhooks based on their filtering preferences. See the [AWS Setup Documentation](docs/aws-setup.md) for details.
 
 ## Architecture
 
@@ -44,16 +44,16 @@ Publisher
 
 ## AWS Services Used
 
-| Service     | Purpose                                     |
-| ----------- | ------------------------------------------- |
-| API Gateway | REST API entry point with API key auth      |
-| Lambda      | Serverless compute (3 functions)            |
-| SQS         | Message queue + dead-letter queue           |
-| DynamoDB    | Events, Subscriptions, Notifications tables |
-| SES         | Email delivery for notifications            |
-| SNS         | Broadcase alerts from CloudWatch alarm      |
-| CloudWatch  | Logging, monitoring and alerting            |
-| IAM         | Least-privilege access control              |
+| Service                                           | Purpose                                     |
+| ------------------------------------------------- | ------------------------------------------- |
+| [API Gateway](docs/aws-setup.md#api-gateway)      | REST API entry point with API key auth      |
+| [Lambda](docs/aws-setup.md#lambda)                | Serverless compute (3 functions)            |
+| [SQS](docs/aws-setup.md#sqs-queues)               | Message queue + dead-letter queue           |
+| [DynamoDB](docs/aws-setup.md#dynamodb-table)      | Events, Subscriptions, Notifications tables |
+| [SES](docs/aws-setup.md#ses-simple-email-service) | Email delivery for notifications            |
+| SNS                                               | Broadcase alerts from CloudWatch alarm      |
+| [CloudWatch](docs/aws-setup.md#cloudwatch-alarms) | Logging, monitoring and alerting            |
+| [IAM](docs/aws-setup.md#iam-resources)            | Least-privilege access control              |
 
 ## API Endpoints
 

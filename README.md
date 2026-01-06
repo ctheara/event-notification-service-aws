@@ -27,6 +27,11 @@ Publisher
                                       │  SES  │    │ Webhook │
                                       │(Email)│    │  (HTTP) │
                                       └───────┘    └─────────┘
+
+        ┌────────────┐     ┌──────────────┐
+        │    DLQ     │────>│  CloudWatch  │────> Alert Email
+        │ (failures) │     │    Alarm     │
+        └────────────┘     └──────────────┘
 ```
 
 ## Features
@@ -41,12 +46,13 @@ Publisher
 
 | Service     | Purpose                                     |
 | ----------- | ------------------------------------------- |
-| API Gateway | REST API entry point                        |
+| API Gateway | REST API entry point with API key auth      |
 | Lambda      | Serverless compute (3 functions)            |
 | SQS         | Message queue + dead-letter queue           |
 | DynamoDB    | Events, Subscriptions, Notifications tables |
-| SES         | Email delivery                              |
-| CloudWatch  | Logging and monitoring                      |
+| SES         | Email delivery for notifications            |
+| SNS         | Broadcase alerts from CloudWatch alarm      |
+| CloudWatch  | Logging, monitoring and alerting            |
 | IAM         | Least-privilege access control              |
 
 ## API Endpoints

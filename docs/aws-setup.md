@@ -149,6 +149,19 @@ Audit trail of all notification attempts
 | POST   | /events        | event-ingest       | Submit new events         |
 | POST   | /subscriptions | event-subscription | Subscribe to get notified |
 
+### API Authentication With API Keys
+
+**Usage Plan: basic-plan**
+
+- Rate limit: 10 requests/second
+- Burst: 20 requests
+- Monthly quota: 200 requests
+
+**API Key: testing-client-key**
+
+- Associated with basic-plan
+- Required for all endpoints
+
 ### Test Script `test-api.sh`
 
 ```bash
@@ -186,4 +199,19 @@ See `lambdas` directory for code.
 
 ## SES (Simple Email Service)
 
-**Verified Identities**: email@example.com (for testing as both sender and recipient)
+Handles sending the emails to subscribers of for event type.
+
+**Verified Identities**: theara.projects@gmail.com (for testing as both sender and recipient)
+
+## CloudWatch Alarms
+
+![couldwatch alarm](../assets/cloudwatch_alarm.png)
+
+### events-dlq-messages-alarm
+
+Alert when messages fail processing and land in DLQ
+
+**Metrics**: SQS -> events-dlq -> ApproximateNumberOfMessagesVisible  
+**Condition**: Greater than 0  
+**Action**: Send email via SNS topic (dlq-alerts)  
+**Why this matters**: When message in DLQ means something is broken. This could be due to bug in Processor Lambda code or external services (SES, webhook endpoint) down. Further investigation is needed diagnose and resolve any issues.
